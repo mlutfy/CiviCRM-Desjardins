@@ -23,7 +23,11 @@ function civicrmdesjardins_civicrm_config(&$config) {
   // set extention path to this module's directory
   $config =& CRM_Core_Config::singleton( );
   $config->extensionsDir = drupal_get_path('module', 'civicrmdesjardins') . '/extensions/';
-  $config->extensionsURL = CIVICRM_UF_BASEURL . '/' . drupal_get_path('module', 'civicrmdesjardins');
+  $config->extensionsURL = CIVICRM_UF_BASEURL . '/' . drupal_get_path('module', 'civicrmdesjardins') . '/extensions/';
+
+  if (CRM_Utils_System::isSSL()) {
+    $config->extensionsURL = str_replace('http://', 'https://', $config->extensionsURL);
+  }
 }
 
 /**
