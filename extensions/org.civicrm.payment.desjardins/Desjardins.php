@@ -222,6 +222,12 @@ class org_civicrm_payment_desjardins extends CRM_Core_Payment {
         $amount = $params['amount_other'];
       }
 
+      // Ex: if the donation amount is 0, membership only, and they are
+      // both handled as separate transactions (although sounds like a civicrm bug)
+      if ($amount <= 0) {
+        return $params;
+      }
+
       $cc_num   = $params['credit_card_number'];
       $cc_month = str_pad($params['month'], 2, '0', STR_PAD_LEFT);
       $cc_year  = substr($params['year'], -2);
