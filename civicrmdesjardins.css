@@ -2,7 +2,8 @@
   display: none;
 }
 
-#crm-container .crm-contribution-main-form-block .credit_card_info-section .civicrmdesjardins-logodj {
+#crm-container .crm-contribution-main-form-block .credit_card_info-section .civicrmdesjardins-logodj,
+#crm-container .crm-event-register-form-block .credit_card_info-section .civicrmdesjardins-logodj {
   float: right;
   background: url(images/desjardins.gif) no-repeat right 12px transparent;
   text-align: right;
@@ -12,30 +13,35 @@
   /* margin-right: -5em; */ /* sinon pile sur icones visa/mc */
 }
 
-#crm-container .crm-contribution-main-form-block .credit_card_type-section {
+#crm-container .crm-contribution-main-form-block .credit_card_type-section,
+#crm-container .crm-event-register-form-block .credit_card_type-section {
   padding-top: 20px;
 }
 
-#crm-container .crm-contribution-main-form-block .credit_card_type-section .label {
+#crm-container .crm-contribution-main-form-block .credit_card_type-section .label,
+#crm-container .crm-event-register-form-block .credit_card_type-section .label {
   display: none;
 }
 
-#crm-container .crm-contribution-main-form-block .credit_card_type-section .content {
+#crm-container .crm-contribution-main-form-block .credit_card_type-section .content,
+#crm-container .crm-event-register-form-block .credit_card_type-section .content {
   position: relative;
 }
 
-#crm-container .crm-contribution-main-form-block .credit_card_type-section .civicrmdesjardins-cclogo {
+#crm-container .crm-contribution-main-form-block .credit_card_type-section .civicrmdesjardins-cclogo,
+#crm-container .crm-event-register-form-block .credit_card_type-section .civicrmdesjardins-cclogo {
   position: absolute;
   top: 0;
   left: 0;
 }
 
 /* we have icons that allow to select the correct type of CC + auto-detection based on card type */
-#crm-container .crm-contribution-main-form-block .credit_card_type-section select {
+#crm-container .crm-contribution-main-form-block .credit_card_type-section select,
+#crm-container .crm-event-register-form-block .credit_card_type-section select {
   display: none;
 }
 
-#crm-container .crm-contribution-main-form-block .credit_card_type-section .civicrmdesjardins-cclogo .civicrmdesjardins-cclogo-visa {
+#crm-container .credit_card_type-section .civicrmdesjardins-cclogo .civicrmdesjardins-cclogo-visa {
   background: url(images/visa.gif) no-repeat 0 0 transparent;
   text-indent: -20000px;
   position: absolute;
@@ -46,7 +52,7 @@
   /* left: 115px; */
 }
 
-#crm-container .crm-contribution-main-form-block .credit_card_type-section .civicrmdesjardins-cclogo .civicrmdesjardins-cclogo-mc {
+#crm-container .credit_card_type-section .civicrmdesjardins-cclogo .civicrmdesjardins-cclogo-mc {
   background: url(images/mastercard.gif) no-repeat 0 0 transparent;
   text-indent: -20000px;
   position: absolute;
@@ -57,7 +63,7 @@
   left: 40px; /* left: 155px; */
 }
 
-#crm-container .crm-contribution-main-form-block .credit_card_type-section .civicrmdesjardins-cclogo .civicrmdesjardins-cclogo-amex {
+#crm-container .credit_card_type-section .civicrmdesjardins-cclogo .civicrmdesjardins-cclogo-amex {
   background: url(images/amex.gif) no-repeat 0 0 transparent;
   text-indent: -20000px;
   position: absolute;
@@ -68,7 +74,7 @@
   left: 80px; /* left: 195px; */
 }
 
-#crm-container .crm-contribution-main-form-block .credit_card_type-section .civicrmdesjardins-cclogo span {
+#crm-container .credit_card_type-section .civicrmdesjardins-cclogo span {
   display: none;
 }
 

@@ -4,7 +4,7 @@
  * Implementation of hook_init()
  */
 function civicrmdesjardins_init() {
-  if (arg(0) == 'civicrm' && arg(1) == 'contribute') {
+  if (arg(0) == 'civicrm' && (arg(1) == 'contribute' || arg(1) == 'event')) {
     drupal_add_css(drupal_get_path('module', 'civicrmdesjardins') . '/civicrmdesjardins.css');
     drupal_add_js(drupal_get_path('module', 'civicrmdesjardins') . '/civicrmdesjardins.js');
 
