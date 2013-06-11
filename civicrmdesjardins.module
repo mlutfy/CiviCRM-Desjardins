@@ -129,32 +129,24 @@ function civicrmdesjardins_civicrm_tokens(&$tokens) {
 
 /**
  * hook_civicrm_tokenValues() implementation
+ * http://wiki.civicrm.org/confluence/display/CRMDOC42/Hook+Reference#HookReference-hookcivicrmtokenValues
+ * http://civicrm.org/blogs/colemanw/create-your-own-tokens-fun-and-profit
  */
-function civicrmdesjardins_civicrm_tokenValues( &$details, &$contactIDs ) {
-  $value = array();
-
+function civicrmdesjardins_civicrm_tokenValues(&$values, $cids, $job = null, $tokens = array(), $context = null) {
   if (! (arg(0) == 'civicrm' && arg(1) == 'contribute')) {
-    return $value;
+    watchdog('civicrmdesjardins', 'NOT FETCHING RECEIPT: arg(0) = ' . arg(0) . ', arg(1) = ' . arg(1) . '--- values = ' . print_r($values, 1) . ' --- cids = ' . print_r($cids, 1) . '--- job = ' . print_r($job, 1) . ' --- tokens = ' . print_r($tokens, 1) . ' --- context = ' . print_r($context, 1));
+    return;
   }
 
-  // Prepare the contact ID(s) for use in a database query
-  //
-  // [ML] this is based on an example from the civi book
-  // In our context of contrib receipts, having multiple contactIDs does
-  // not make sense, but leaving the code just in case.
-  if ( is_array( $contactIDs ) ) {
-    $id_contact = $contactIDs['contact_id'];
-    // watchdog('civicrmdesjardins', 'Sending email receipt for contact ID: ' . $id_contact . ' (A)');
-  } else {
-    $id_contact = $contactIDs;
-    // watchdog('civicrmdesjardins', 'Sending email receipt for contact ID: ' . $id_contact . ' (B)');
+  watchdog('civicrmdesjardins', 'tokenValues: values = ' . print_r($values, 1) . ' --- cids = ' . print_r($cids, 1) . '--- job = ' . print_r($job, 1) . ' --- tokens = ' . print_r($tokens, 1) . ' --- context = ' . print_r($context, 1));
+
+  foreach ($cids as $cid) {
+    // Fetch the receipt (assume latest)
+    $tx = db_query("select invoice_id from {civicrm_contribution} where contact_id = :id order by receive_date desc limit 1", array(':id' => $cid))->fetchField();
+    $receipt = db_query("select receipt from {civicrmdesjardins_receipt} where trx_id = :tx", array(':tx' => $tx))->fetchField();
+  
+    $values[$cid]['contribution.desjardins_receipt'] = $receipt;
   }
-
-  // Fetch the receipt (assume latest)
-  $tx = db_query("select invoice_id from {civicrm_contribution} where contact_id = :id order by receive_date desc limit 1", array(':id' => $id_contact))->fetchField();
-  $receipt = db_query("select receipt from {civicrmdesjardins_receipt} where trx_id = :tx", array(':tx' => $tx))->fetchField();
-
-  $details['contribution.desjardins_receipt'] = $receipt;
 }
 
 function civicrmdesjardins_send_confirmation($tx) {
@@ -180,7 +172,7 @@ function civicrmdesjardins_logxml($trx_id, $message, $type, $fail = 0) {
   $message = preg_replace('/<number>(\d{2})\d{10}(\d{4})<\/number>/', '<number>\1**********\2</number>', $message);
 
   if (! $trx_id) {
-    watchdog('civicrmdesjardins', 'No trx_id found, cannot write the log: ' . check_plain($message), 'error');
+    watchdog('civicrmdesjardins', 'No trx_id found, cannot write the log: ' . check_plain($message), array(), WATCHDOG_ERROR);
     return;
   }
 
@@ -191,9 +183,9 @@ function civicrmdesjardins_logxml($trx_id, $message, $type, $fail = 0) {
 
 /**
  * Returns the Desjardins receipt for the transaction
- * Add this in your ThankYou.tpl : {$trxn_id|civicrmdesjardins_receipt}
+ * Add this in your ThankYou.tpl : {php}echo civicrmdesjardins_receipt($trxn_id);{/php}
  */
-function smarty_modifier_civicrmdesjardins_receipt($trx_id) {
-  return db_query('SELECT receipt FROM {civicrmdesjardins_receipt} WHERE trx_id = :trx_id', array(':trx_id' => $trx_id))->fetchField();
+function civicrmdesjardins_receipt($trx_id) {
+  return  db_query('SELECT receipt FROM {civicrmdesjardins_receipt} WHERE trx_id = :trx_id', array(':trx_id' => $trx_id))->fetchField();
 }
 
