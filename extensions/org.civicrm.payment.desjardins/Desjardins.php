@@ -196,6 +196,8 @@ class org_civicrm_payment_desjardins extends CRM_Core_Payment {
       }
 
       // Fraud-protection: Validate the postal code
+/* [ML] 2012-02-28 disabling due to client complaints. */
+/*
       if (! $this->isValidPostalCode($params)) {
         watchdog('civicrmdesjardins', 'Invalid postcode for Canada: ' . print_r($params, 1));
         $this->djLog($params['invoiceID'], 'anti-fraud (CDJ002 invalid postcode): ' . print_r($params, 1), 'do_direct fraud', TRUE);
@@ -203,6 +205,7 @@ class org_civicrm_payment_desjardins extends CRM_Core_Payment {
                       . ' (code: CDJ002) '
                       . '<div class="civicrm-dj-retrytx">' . t("The transaction was not approved. Please verify your credit card number and expiration date.") . '</div>');
       }
+*/
 
       // Fraud-protection: Limit the number of transactions: 2 per 6 hours
       if ($this->isTooManyTransactions($params)) {
